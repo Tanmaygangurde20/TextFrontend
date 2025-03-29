@@ -3,6 +3,11 @@ import { FaUpload, FaSearch, FaBookOpen, FaWikipediaW, FaFileAlt, FaBook, FaArch
 import axios from 'axios';
 import '../styles/UploadSection.css';
 
+// Define API base URL based on environment
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://backend-29gk.onrender.com' 
+  : 'http://localhost:5000';
+
 const UploadSection = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -71,13 +76,13 @@ const UploadSection = () => {
 
   const processImage = async () => {
     if (!selectedFile) return;
-
+    
     setLoading(true);
     const formData = new FormData();
     formData.append('file', selectedFile);
-
+    
     try {
-      const response = await axios.post('http://localhost:5000/api/upload', formData, {
+      const response = await axios.post(`${API_BASE_URL}/api/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -257,4 +262,4 @@ const UploadSection = () => {
   );
 };
 
-export default UploadSection; 
+export default UploadSection;
